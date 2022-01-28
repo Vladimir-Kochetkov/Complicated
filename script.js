@@ -8,5 +8,4 @@ console.log(result);
 
 let degree = result ** 3;
 console.log(degree);
-
 console.log(String(degree).slice(0, 2));
