@@ -1,12 +1,32 @@
 "use strict";
-let num = 266219;
-let arr = String(num).split('');
+let lang = 'en';
 
-let result = arr.reduce((item, current) =>
-    item * current, 1);
-console.log(result);
+if (lang === 'ru') {
+    console.log("Понедельник, Вторник, Среда, Четверг, Пятница, Суббота, Воскресенье");
+} else if (lang === 'en') {
+    console.log("Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday");
+}
 
-let degree = result ** 3;
-console.log(degree);
+switch (lang) {
+    case 'ru':
+        console.log("Понедельник, Вторник, Среда, Четверг, Пятница, Суббота, Воскресенье");
+        break;
+    case 'en':
+        console.log("Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday");
+        break;
+}
 
-console.log(String(degree).slice(0, 2));
+lang = [
+    ["Понедельник, Вторник, Среда, Четверг, Пятница, Суббота, Воскресенье"],
+    ["Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday"]
+];
+console.log(lang[0]);
+console.log(lang[1]);
+
+
+let namePerson = prompt('Введите имя', 'Артем');
+
+let socialStatus = (namePerson === "Артем") ? 'директор' :
+    (namePerson === "Александр") ? 'преподаватель' :
+        'студент';
+console.log(socialStatus);   
