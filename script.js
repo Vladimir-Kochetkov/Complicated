@@ -1,13 +1,21 @@
 "use strict";
-const message = "   Строчный аргумент";
-const lessonFour = function (variable) {
-    variable.trim();
-    if (typeof variable != "string") {
-        console.log('В качестве аргумента передана не строка');
-    } else if (variable.length < 30) {
-        console.log(variable.trim());
-    } else if (variable.length > 30) {
-        console.log((variable.slice(0, 29)).trim() + '...');
+const arr = ['4', '54', '28', '48', '441', '14', '46'];
+let result = [];
+for (let i = 0; i < arr.length; i++) {
+    if (arr[i][0] === '2' || arr[i][0] === '4') {
+        result += ' ' + arr[i];
     }
-};
-lessonFour(message);
+}
+console.log(result);
+
+
+
+nextPrime:
+for (let i = 2; i <= 100; i++) {
+
+    for (let j = 2; j < i; j++) {
+        if (i % j == 0) continue nextPrime;
+    }
+    console.log(i);
+}
+
