@@ -1,21 +1,12 @@
 "use strict";
-const arr = ['4', '54', '28', '48', '441', '14', '46'];
-let result = [];
-for (let i = 0; i < arr.length; i++) {
-    if (arr[i][0] === '2' || arr[i][0] === '4') {
-        result += ' ' + arr[i];
-    }
+const week = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"];
+let body = document.querySelector('body');
+for (let key of week) {
+    body.innerHTML += `<p>${key}</p>`;
 }
-console.log(result);
-
-
-
-nextPrime:
-for (let i = 2; i <= 100; i++) {
-
-    for (let j = 2; j < i; j++) {
-        if (i % j == 0) continue nextPrime;
-    }
-    console.log(i);
-}
-
+let p = document.querySelectorAll('p');
+p[5].style.fontStyle = 'italic';
+p[6].style.fontStyle = 'italic';
+const now = new Date();
+let day = now.getDay() - 1;
+p[day].style.fontWeight = 'bold';
