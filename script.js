@@ -1,106 +1,48 @@
 "use strict";
-const appData = {
-    title: '',
-    screens: [],
-    screenPrice: 0,
-    adaptive: true,
-    rollback: 10,
-    fullPrice: 0,
-    allServicePrices: 0,
-    servicePercentPrice: 0,
-    services: {},
-    isString: function (str) {
-        return str.trim() === '' || parseInt(str);
-    },
-    asking: function () {
-        do {
-            appData.title = prompt('Как называется наш проект?', "Калькулятор вёрстки");
-        } while (appData.isString(appData.title));
+const timeDisplay = () => {
+    const week = ['Понедельник, ', 'Вторник, ', 'Среда, ', 'Четверг, ', 'Пятница, ', 'Суббота, ', 'Воскресенье, '];
+    const month = [' января ', ' февраля ', ' марта ', ' апреля ', ' мая ', ' июня ', ' июля ', ' августа ', ' сентября', ' октября ', ' ноября ', ' декабря '];
+    const date = new Date();
 
-
-        for (let i = 0; i < 2; i++) {
-            let name;
-            do {
-                name = prompt('Какие типы экранов нужно разработать?', 'Простые');
-            } while (appData.isString(name));
-
-            let price = 0;
-            do {
-                price = +prompt('Сколько будет стоить данная работа?', '12000');
-            } while (!appData.isNumber(price));
-
-            appData.screens.push({ id: i, name: name, price: price });
+    const addZero = elem => {
+        if (String(elem).length === 1) {
+            return '0' + elem;
+        } else {
+            return String(elem);
         }
+    };
+    const changeEnding = (num, timeElem = '') => {
+        const textVariant = (timeElem === 'h' ? [' час ', ' часа ', ' часов '] :
+            timeElem === 'm' ? [' минута ', ' минуты ', ' минут '] :
+                [' секунда ', ' секунды ', ' секунд ']);
+        const n = num % 10;
+        return num > 4 && num < 20 ? num + textVariant[2] :
+            n === 1 ? num + textVariant[0] :
+                n > 1 && n < 5 ? num + textVariant[1] :
+                    num + textVariant[2];
+    };
 
-        for (let i = 0; i < 2; i++) {
-            let name;
-            let price = 0;
-            do {
-                name = prompt('Какой дополнительный тип услуги нужен?');
-            } while (appData.isString(name));
+    const textTime = 'Сегодня ' + week[date.getDay() - 1] + date.getDate() + month[date.getMonth()] +
+        date.getFullYear() + ' года, ' + changeEnding(date.getHours(), 'h') +
+        changeEnding(date.getMinutes(), 'm') + changeEnding(date.getSeconds());
 
+    const time = addZero(date.getHours()) + ':' + addZero(date.getMinutes()) + ':' + addZero(date.getSeconds()) + ' ' +
+        addZero(date.getDate()) + '.' + addZero(date.getMonth() + 1) + '.' + date.getFullYear();
 
-            do {
-                price = prompt('Сколько это будет стоить?', '2000');
-            } while (!appData.isNumber(price));
-
-            appData.services[i + ' ' + name] = +price;
-
-        }
-
-        appData.adaptive = confirm('Нужен ли адаптив на сайте?');
-    },
-    addPrices: function () {
-        for (let screen of appData.screens) {
-            appData.screenPrice += +screen.price;
-        }
+    document.querySelector('.text-time').textContent = textTime;
+    document.querySelector('.time').textContent = time;
 
 
-        for (let key in appData.services) {
-            appData.allServicePrices += appData.services[key];
-        }
-    },
-    isNumber: function (num) {
-        return !isNaN(parseFloat(num)) && isFinite(num) || null;
-    },
-    getFullPrice: function () {
-        appData.fullPrice = +appData.screenPrice + appData.allServicePrices;
-    },
-    getTitle: function () {
-        appData.title = appData.title.trim()[0].toUpperCase() + appData.title.trim().substr(1).toLowerCase();
-    },
-    getServicePercentPrices: function () {
-        appData.servicePercentPrice = appData.fullPrice - (appData.fullPrice * (appData.rollback / 100));
-    },
-    getRollbackMessage: function (price) {
-        if (price >= 30000) {
-            return "Даём скидку в 10%";
-        } else if (price >= 15000 && price < 30000) {
-            return "Даём скидку в 5%";
-        } else if (price < 15000 && price >= 0) {
-            return "Скидка не предусмотрена";
-        } else if (price < 0) {
-            return "Что то пошло не так";
-        }
-    },
-    logger: function () {
-        console.log(appData.fullPrice);
-        console.log(appData.servicePercentPrice);
-        console.log(appData.screens);
-        console.log(appData.screenPrice);
-    },
-    start: function () {
-        appData.asking();
-        appData.addPrices();
-        appData.getFullPrice();
-        appData.getServicePercentPrices();
-        appData.getTitle();
-        appData.logger();
-    },
-
+    console.log(textTime);
+    console.log(time);
 };
-appData.start();
-const result = appData.screens.reduce(function (sum, item) {
-    return sum + item.price;
-}, 0);
-console.log(result);
+
+let elem = document.createElement('div');
+elem.classList.add('text-time');
+document.body.appendChild(elem);
+
+elem = document.createElement('div');
+elem.classList.add('time');
+document.body.appendChild(elem);
+
+setInterval(timeDisplay, 1000);
