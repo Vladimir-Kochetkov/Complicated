@@ -1,16 +1,15 @@
 "use strict";
 const timeDisplay = () => {
-    const week = ['Понедельник, ', 'Вторник, ', 'Среда, ', 'Четверг, ', 'Пятница, ', 'Суббота, ', 'Воскресенье, '];
-    const month = [' января ', ' февраля ', ' марта ', ' апреля ', ' мая ', ' июня ', ' июля ', ' августа ', ' сентября', ' октября ', ' ноября ', ' декабря '];
-    const date = new Date();
+    //const week = ['Понедельник, ', 'Вторник, ', 'Среда, ', 'Четверг, ', 'Пятница, ', 'Суббота, ', 'Воскресенье, '];
 
-    const addZero = elem => {
-        if (String(elem).length === 1) {
-            return '0' + elem;
-        } else {
-            return String(elem);
-        }
-    };
+    const date = new Date();
+    const month = date.toLocaleString('default', { month: 'long' });
+    const week = date.toLocaleString('ru', { weekday: 'long' });
+
+    const addZero = elem =>
+        (String(elem).length === 1) ? '0' + elem :
+            String(elem);
+
     const changeEnding = (num, timeElem = '') => {
         const textVariant = (timeElem === 'h' ? [' час ', ' часа ', ' часов '] :
             timeElem === 'm' ? [' минута ', ' минуты ', ' минут '] :
@@ -22,7 +21,7 @@ const timeDisplay = () => {
                     num + textVariant[2];
     };
 
-    const textTime = 'Сегодня ' + week[date.getDay() - 1] + date.getDate() + month[date.getMonth()] +
+    const textTime = 'Сегодня ' + week + ', ' + date.getDate() + ' ' + month + ' ' +
         date.getFullYear() + ' года, ' + changeEnding(date.getHours(), 'h') +
         changeEnding(date.getMinutes(), 'm') + changeEnding(date.getSeconds());
 
